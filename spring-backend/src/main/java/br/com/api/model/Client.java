@@ -22,7 +22,6 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter private Long id;
 	
-	
 	@Column(name = "user_name") @Max(value = 60, message = "Valor deve ser menor ou igual a 60")
 	@Getter @Setter private String name;
 	
@@ -37,5 +36,47 @@ public class Client {
 	
 	@Column(name = "user_phone") @Max(value = 12, message = "Valor deve ser menor ou igual a 12")
 	@Getter @Setter private String phone;
+
+	
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 }
