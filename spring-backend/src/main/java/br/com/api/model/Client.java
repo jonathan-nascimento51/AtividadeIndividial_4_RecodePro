@@ -8,9 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "clients")
@@ -19,25 +17,31 @@ public class Client {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Getter private Long id;
+	private Long id;
 	
 	@Column(name = "user_name")
-	@Getter @Setter private String name;
+	private String name;
 	
 	@Column(name = "user_cpf")
-	@Getter @Setter private String cpf;
+	private String cpf;
 	
 	@Column(name = "user_email")
-	@Getter @Setter private String email;
+	private String email;
 	
 	@Column(name = "user_pass")
-	@Getter @Setter private String pass;
+	private String pass;
 	
 	@Column(name = "user_phone")
-	@Getter @Setter private String phone;
+	private String phone;
+	
+	public Long getId() {
+		return id;
+	}
 
-	
-	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}
