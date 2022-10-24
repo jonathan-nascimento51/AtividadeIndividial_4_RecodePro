@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ClientService from '../services/ClientService';
+import TicketService from '../services/TicketService';
 
 class updateComponent extends Component {
 
@@ -8,64 +8,67 @@ class updateComponent extends Component {
 
         this.state = {
             id: this.props.match.params.id,
-            name: '',
-            cpf: '',
-            email: '',
-            pass: '',
-            phone: ''
+            namePas: '',
+            partida: '',
+            destino: '',
+            dataIda: '',
+            dataVolta: ''
         }
-        this.changeNameHandler = this.changeNameHandler.bind(this);
-        this.changeCpfHandler = this.changeCpfHandler.bind(this);
-        this.changeEmailHandler = this.changeEmailHandler.bind(this);
-        this.changePassHandler = this.changePassHandler.bind(this);
-        this.changePhoneHandler = this.changePhoneHandler.bind(this);
+        this.changeNamePasHandler = this.changeNamePasHandler.bind(this);
+        this.changePartidaHandler = this.changePartidaHandler.bind(this);
+        this.changeDestinoHandler = this.changeDestinoHandler.bind(this);
+        this.changeDataIdaHandler = this.changeDataIdaHandler.bind(this);
+        this.changeDataVoltaHandler = this.changeDataVoltaHandler.bind(this);
+
+        this.updateTicket = this.updateTicket.bind(this);
+        this.cancel = this.cancel.bind(this);
 
     }
 
     componentDidMount(){
-        ClientService.getClientById(this.state.id).then( (res) =>{
-            let client = res.data;
-            this.setState({name: client.name,
-                cpf: client.cpf,
-                email : client.email, 
-                pass: client.pass, 
-                phone: client.phone
+        TicketService.getTicketById(this.state.id).then( (res) =>{
+            let ticket = res.data;
+            this.setState({namePas: ticket.namePas,
+                partida: ticket.partida,
+                destino : ticket.destino, 
+                dataIda: ticket.dataIda, 
+                dataVolta: ticket.dataVolta
             });
         });
     }
 
-    updateClient = (e) => {
+    updateTicket = (e) => {
         e.preventDefault();
-        let client = {name: this.state.name,
-            cpf: this.state.cpf,
-            email : this.state.email, 
-            pass: this.state.pass, 
-            phone: this.state.phone};
-        console.log('client => ' + JSON.stringify(client));
+        let ticket = {namePas: this.state.namePas,
+            partida: this.state.partida,
+            destino : this.state.destino, 
+            dataIda: this.state.dataIda, 
+            dataVolta: this.state.dataVolta};
+        console.log('ticket => ' + JSON.stringify(ticket));
         console.log('id => ' + JSON.stringify(this.state.id));
-        ClientService.updateClient(client, this.state.id).then( res => {
+        TicketService.updateTicket(ticket, this.state.id).then( res => {
             this.props.history.push('/home');
         });
     }
 
-    changeNameHandler= (event) => {
-        this.setState({name: event.target.value});
+    changeNamePasHandler= (event) => {
+        this.setState({namePas: event.target.value});
     }
 
-    changeCpfHandler= (event) => {
-        this.setState({cpf: event.target.value});
+    changePartidaHandler= (event) => {
+        this.setState({partida: event.target.value});
     }
 
-    changeEmailHandler= (event) => {
-        this.setState({email: event.target.value});
+    changeDestinoHandler= (event) => {
+        this.setState({destino: event.target.value});
     }
 
-    changePassHandler= (event) => {
-        this.setState({pass: event.target.value});
+    changeDataIdaHandler= (event) => {
+        this.setState({dataIda: event.target.value});
     }
 
-    changePhoneHandler= (event) => {
-        this.setState({phone: event.target.value});
+    changeDataVoltaHandler= (event) => {
+        this.setState({dataVolta: event.target.value});
     }
 
     cancel(){
@@ -76,40 +79,40 @@ class updateComponent extends Component {
         return (
             <div className = "container">
                         <div className = "row">
-                            <div className = "card col-md-6 offset-md-3 offset-md-3">
-                                <h3 className="text-center">Atualizar Passagem</h3>
+                            <div className = "card col-md-6 offset-md-3 offset-md-3 bg-dark">
+                                <h3 className="text-center text-white pt-4">Atualizar Passagem</h3>
                                 <div className = "card-body">
-                                    <form>
-                                        <div className = "form-group">
-                                            <label> First Name: </label>
-                                            <input placeholder="First Name" name="firstName" className="form-control" 
-                                                value={this.state.name} onChange={this.changeNameHandler}/>
+                                    <form className='text-white'>
+                                        <div className = "form-group pb-2">
+                                            <label> Nome Completo </label>
+                                            <input placeholder="Nome Completo" name="name" className="form-control" 
+                                                value={this.state.namePas} onChange={this.changeNamePasHandler}/>
                                         </div>
-                                        <div className = "form-group">
-                                            <label> Last Name: </label>
-                                            <input placeholder="Last Name" name="lastName" className="form-control" 
-                                                value={this.state.cpf} onChange={this.changeCpfHandler}/>
+                                        <div className = "form-group pb-2">
+                                            <label> Partida: </label>
+                                            <input placeholder="Partida:" name="partida" className="form-control" 
+                                                value={this.state.partida} onChange={this.changePartidaHandler}/>
                                         </div>
-                                        <div className = "form-group">
-                                            <label> Email Id: </label>
-                                            <input placeholder="Email Address" name="emailId" className="form-control" 
-                                                value={this.state.email} onChange={this.changeEmailHandler}/>
-                                        </div>
-
-                                        <div className = "form-group">
-                                            <label> Email Id: </label>
-                                            <input placeholder="Email Address" name="emailId" className="form-control" 
-                                                value={this.state.pass} onChange={this.changePassHandler}/>
+                                        <div className = "form-group pb-2">
+                                            <label> Destino: </label>
+                                            <input placeholder="Destino:" name="destino" className="form-control" 
+                                                value={this.state.destino} onChange={this.changeDestinoHandler}/>
                                         </div>
 
-                                        <div className = "form-group">
-                                            <label> Email Id: </label>
-                                            <input placeholder="Email Address" name="emailId" className="form-control" 
-                                                value={this.state.phone} onChange={this.changePhoneHandler}/>
+                                        <div className = "form-group pb-2">
+                                            <label> Data Ida: </label>
+                                            <input placeholder="Data Ida:" type='date' name="dataIda" className="form-control" 
+                                                value={this.state.dataIda} onChange={this.changeDataIdaHandler}/>
                                         </div>
 
-                                        <button className="btn btn-success" onClick={this.updateClient}>Salvar</button>
-                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
+                                        <div className = "form-group pb-3">
+                                            <label> Data Volta: </label>
+                                            <input placeholder="Data Volta:" type='date' name="dataVolta" className="form-control" 
+                                                value={this.state.dataVolta} onChange={this.changeDataVoltaHandler}/>
+                                        </div>
+
+                                        <button className="btn btn-success" onClick={this.updateTicket}>Salvar</button>
+                                        <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Voltar</button>
                                     </form>
                                 </div>
                             </div>
