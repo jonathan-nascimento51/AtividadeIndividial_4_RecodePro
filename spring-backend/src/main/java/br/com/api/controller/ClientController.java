@@ -1,6 +1,7 @@
 package br.com.api.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,13 @@ public class ClientController {
 
 	@Autowired
 	ClientRepository clientRepository;
+	
+	
+	@GetMapping("client")
+	public List<Client> getAllEmployees(){
+		return clientRepository.findAll();
+	}	
+	
 	
 	@GetMapping("client/{id}")
 	public ResponseEntity<Client> getClientById (@PathVariable Long id) {
