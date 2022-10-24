@@ -4,7 +4,7 @@ import pantanal from '../images/pantanal.png';
 import pipa from '../images/praia-da-pipa.png';
 import FooterComponent from './FooterComponent';
 import HeaderComponent from './HeaderComponent';
-import ClientService from '../services/ClientService';
+import TicketService from '../services/TicketService';
 
 class HomeComponent extends Component {
 
@@ -12,74 +12,71 @@ class HomeComponent extends Component {
         super(props)
 
         this.state = {
-            clients:[],
+            tickets:[],
 
             id: '',
-            name: '',
-            cpf: '',
-            email: '',
-            pass: '',
-            phone: ''
+            namePas: '',
+            partida: '',
+            destino: '',
+            dataIda: '',
+            dataVolta: ''
         }
-        this.changeNameHandler = this.changeNameHandler.bind(this);
-        this.changeCpfHandler = this.changeCpfHandler.bind(this);
-        this.changeEmailHandler = this.changeEmailHandler.bind(this);
-        this.changePassHandler = this.changePassHandler.bind(this);
-        this.changePhoneHandler = this.changePhoneHandler.bind(this);
+        this.changeNamePasHandler = this.changeNamePasHandler.bind(this);
+        this.changePartidaHandler = this.changePartidaHandler.bind(this);
+        this.changeDestinoHandler = this.changeDestinoHandler.bind(this);
+        this.changeDataIdaHandler = this.changeDataIdaHandler.bind(this);
+        this.changeDataVoltaHandler = this.changeDataVoltaHandler.bind(this);
 
-        this.saveOrUpdateClient = this.saveOrUpdateClient.bind(this);
-        this.deleteClient = this.deleteClient.bind(this);
+        this.saveOrUpdateTicket = this.saveOrUpdateTicket.bind(this);
+        this.deleteTicket = this.deleteTicket.bind(this);
+        this.editTicket = this.editTicket.bind(this);
 
     }
 
     componentDidMount(){
-        ClientService.getClients().then((res) => {
-            this.setState({ clients: res.data});
+        TicketService.getTickets().then((res) => {
+            this.setState({ tickets: res.data});
         });
     }
 
-    saveOrUpdateClient = (e) => {
+    saveOrUpdateTicket = (e) => {
         e.preventDefault();
-        let client = {name: this.state.name, cpf: this.state.cpf, 
-                            email: this.state.email, pass: this.state.pass, phone: this.state.phone};
-        console.log('client => ' + JSON.stringify(client));
-        ClientService.createClient(client).then(res =>{
-            this.props.history.push('/');
+        let ticket = {namePas: this.state.namePas, partida: this.state.partida, 
+                            destino: this.state.destino, dataIda: this.state.dataIda, dataVolta: this.state.dataVolta};
+        console.log('ticket => ' + JSON.stringify(ticket));
+        TicketService.createTicket(ticket).then(res =>{
+            this.props.history.push('/home');
         });
     }
 
-    deleteClient(id){
-        ClientService.deleteClient(id).then( res => {
-            this.setState({clients: this.state.clients.filter(client => client.id !== id)});
+    deleteTicket(id){
+        TicketService.deleteTicket(id).then( res => {
+            this.setState({tickets: this.state.tickets.filter(ticket => ticket.id !== id)});
         });
     }
 
-    viewEmployee(id){
-        this.props.history.push(`/view-employee/${id}`);
-    }
-
-    editEmployee(id){
+    editTicket(id){
         this.props.history.push(`/update/${id}`);
     }
 
-    changeNameHandler= (event) => {
-        this.setState({name: event.target.value});
+    changeNamePasHandler= (event) => {
+        this.setState({namePas: event.target.value});
     }
 
-    changeCpfHandler= (event) => {
-        this.setState({cpf: event.target.value});
+    changePartidaHandler= (event) => {
+        this.setState({partida: event.target.value});
     }
 
-    changeEmailHandler= (event) => {
-        this.setState({email: event.target.value});
+    changeDestinoHandler= (event) => {
+        this.setState({destino: event.target.value});
     }
 
-    changePassHandler= (event) => {
-        this.setState({pass: event.target.value});
+    changeDataIdaHandler= (event) => {
+        this.setState({dataIda: event.target.value});
     }
 
-    changePhoneHandler= (event) => {
-        this.setState({phone: event.target.value});
+    changeDataVoltaHandler= (event) => {
+        this.setState({dataVolta: event.target.value});
     }
 
     render() {
@@ -98,61 +95,62 @@ class HomeComponent extends Component {
 
                         <div className="row justify-content-center">
                             <div className="col-10 col-xl-4 col-lg-10 pb-lg-2 col-sm-10">
-                                <input onChange={this.changeNameHandler} value={this.state.name} type="text" className="form-control" name="name" placeholder="Insira seu nome" ></input>
+                                <input onChange={this.changeNamePasHandler} value={this.state.namePas} type="text" className="form-control" name="namePas" placeholder="Insira seu nome" ></input>
                             </div>
                         </div>
 
                         <div className="row justify-content-center pb-3">
                             <div className="pb-4 col-5 mx-1 pb-2 col-xl-2">
-                                <input onChange={this.changeCpfHandler} value={this.state.cpf} className="form-control" type="text" placeholder="Local Partida" name="partida"/>
+                                <input onChange={this.changePartidaHandler} value={this.state.partida} className="form-control" type="text" placeholder="Local Partida" name="partida"/>
                             </div>
                             <div className="pb-4 col-5 mx-1 pb-2 col-xl-2">
-                                <input onChange={this.changeEmailHandler} value={this.state.email} className="form-control" type="text" placeholder="Local Destino" name="destino"/>
+                                <input onChange={this.changeDestinoHandler} value={this.state.destino} className="form-control" type="text" placeholder="Local Destino" name="destino"/>
                             </div>
                             <div className="pb-4 col-5 mx-1 pb-2 col-xl-2">
                                 <div className="input-group">
                                     <div className="input-group-text">Ida</div>
-                                    <input onChange={this.changePassHandler} value={this.state.pass} type="date" className="form-control" name="dataPartida"/>
+                                    <input onChange={this.changeDataIdaHandler} value={this.state.dataIda} type="date" className="form-control" name="dataPartida"/>
                                 </div>
                             </div>
                             <div className="pb-4 col-5 mx-1 pb-2 col-xl-2">
                                 <div className="input-group">
                                     <div className="input-group-text">Volta</div>
-                                    <input onChange={this.changePhoneHandler} value={this.state.phone} type="date" className="form-control" name="dataDestino"/>
+                                    <input onChange={this.changeDataVoltaHandler} value={this.state.dataVolta} type="date" className="form-control" name="dataDestino"/>
                                 </div>
                             </div>
                             <div className="d-xl-block gap-2 d-grid col-10 col-xl-2">
-                                <button onClick={this.saveOrUpdateClient} className="btn btn-primary">Quero viajar</button>
+                                <button onClick={this.saveOrUpdateTicket} className="btn btn-primary">Quero viajar</button>
                             </div>
                         </div>
                     </form>
                 </div>
 
                 <div className = "container justify-content-center pt-2">
+                    <h2 className='px-5 pb-2'>Minhas Passagens</h2>
                     <table className = "table table-striped table-bordered table-response">
                             <thead>
                                 <tr>
-                                    <th> nome</th>
-                                    <th> ida</th>
-                                    <th> volta</th>
-                                    <th> data ida</th>
-                                    <th> data volta</th>
-                                    <th> ações</th>
+                                    <th> Nome Passageiro </th>
+                                    <th> Partida </th>
+                                    <th> Destino </th>
+                                    <th> Data Ida </th>
+                                    <th> Data Volta </th>
+                                    <th> Ações </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    this.state.clients.map(
-                                        client => 
-                                        <tr key = {client.id}>
-                                             <td> { client.name} </td>   
-                                             <td> {client.cpf}</td>
-                                             <td> {client.email}</td>
-                                             <td> {client.pass}</td>
-                                             <td> {client.phone}</td>
+                                    this.state.tickets.map(
+                                        ticket => 
+                                        <tr key = {ticket.id}>
+                                             <td> {ticket.namePas} </td>   
+                                             <td> {ticket.partida}</td>
+                                             <td> {ticket.destino}</td>
+                                             <td> {ticket.dataIda}</td>
+                                             <td> {ticket.dataVolta}</td>
                                              <td>
-                                                <button onClick={ () => this.editEmployee(client.id)} className="btn btn-info">Update</button>
-                                                <button style={{marginLeft: '10px'}} onClick={ () => this.deleteClient(client.id)} className="btn btn-danger">Delete</button> 
+                                                <button onClick={ () => this.editTicket(ticket.id)} className="btn btn-info">Atualizar</button>
+                                                <button style={{marginLeft: '10px'}} onClick={ () => this.deleteTicket(ticket.id)} className="btn btn-danger">Deletar</button> 
                                              </td>
                                         </tr>
                                     )
