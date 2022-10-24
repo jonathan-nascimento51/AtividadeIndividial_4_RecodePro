@@ -29,10 +29,9 @@ class HeaderComponent extends Component {
                                     <ul className="dropdown-menu">
                                     <li><a className="dropdown-item" href="#">Sair</a></li>
                                     <li><a className="dropdown-item" href="#">Perfil</a></li>
-                                    <li><a className="dropdown-item" href="#">Passagens</a></li>
                                     </ul>
                                 </div>
-                                <button className="btn btn-light ms-lg-2 text-dark">Cadastre-se</button>
+                                <button className="btn btn-light ms-lg-2 text-dark">Seja Bem-Vindo(a)!</button>
                             </div>   
                         </div>
                     </nav>
